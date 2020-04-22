@@ -2,10 +2,14 @@ package com.example.praktikmodul10
 
 import NoteAdapter
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -23,9 +27,11 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var noteViewModel: NoteViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         buttonAddNote.setOnClickListener {
             startActivityForResult(
@@ -76,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         return when (item?.itemId) {
             R.id.delete_all_notes -> {
                 noteViewModel.deleteAllNotes()
-                Toast.makeText(this, "Semua sudah dihapus!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Semua data dihapus!", Toast.LENGTH_SHORT).show()
                 true
             } else -> {
                 super.onOptionsItemSelected(item)
@@ -110,6 +116,20 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Catatan tidak disimpan!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    public fun alertClick(view: View) {
+        AlertDialog.Builder(this)
+            .setTitle("Keluar dari aplikasi?")
+            .setMessage("Klik Ya untuk keluar!")
+            .setIcon(R.drawable.logout)
+            .setPositiveButton("Ya", DialogInterface.OnClickListener { dialogInterface, i ->
+                this@MainActivity.finish()
+            })
+            .setNegativeButton("Tidak", DialogInterface.OnClickListener { dialogInterface, i ->
+                Toast.makeText(this, "Anda tidak jadi keluar", Toast.LENGTH_LONG).show()
+            })
+            .show()
     }
 }
 
